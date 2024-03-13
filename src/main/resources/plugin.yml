@@ -1,0 +1,4 @@
+name: EndlessLegends
+version: '${project.version}'
+main: com.airijko.endlesslegends.EndlessLegends
+api-version: '1.20'
