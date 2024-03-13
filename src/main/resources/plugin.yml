@@ -1,4 +1,10 @@
 name: EndlessLegends
 version: '${project.version}'
 main: com.airijko.endlesslegends.EndlessLegends
+depend: [EndlessCore]
 api-version: '1.20'
+commands:
+  chooseclass:
+    description: Choose your class
+    usage: /<command> <class>
+    aliases: [cc]
