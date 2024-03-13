@@ -27,11 +27,11 @@ public class LegendAttributeProvider implements AttributeModifierProvider {
                 return legend.strength;
             case "Toughness":
                 return legend.toughness;
-            case "Knockback_Resistance":
+            case "Knockback Resistance":
                 return legend.knockbackResistance;
-            case "Speed":
+            case "Movement Speed":
                 return legend.speed;
-            case "Attack_Speed":
+            case "Attack Speed":
                 return legend.attackSpeed;
             case "Precision":
                 return legend.precision;
@@ -41,7 +41,6 @@ public class LegendAttributeProvider implements AttributeModifierProvider {
                 return 0;
         }
     }
-
     @Override
     public Map<String, Double> getModifiers(String attributeName, Player player) {
         Map<String, Double> attributeModifiers = new HashMap<>();
@@ -51,6 +50,6 @@ public class LegendAttributeProvider implements AttributeModifierProvider {
 
     @Override
     public Set<String> getAttributeNames() {
-        return new HashSet<>(Arrays.asList("Life_Force", "Strength", "Toughness", "Knockback_Resistance", "Speed", "Attack_Speed", "Precision", "Ferocity"));
+        return new HashSet<>(Arrays.asList("Life_Force", "Strength", "Toughness", "Knockback Resistance", "Movement Speed", "Attack Speed", "Precision", "Ferocity"));
     }
 }

@@ -50,13 +50,14 @@ public class PlayerDataManager {
         YamlConfiguration playerData = YamlConfiguration.loadConfiguration(playerFile);
         double lifeForce = playerData.getDouble("Legend.Attributes.Life_Force");
         double strength = playerData.getDouble("Legend.Attributes.Strength");
-        double toughness = playerData.getDouble("Legend.Attributes.Toughness");
-        double knockbackResistance = playerData.getDouble("Legend.Attributes.Knockback_Resistance");
-        double speed = playerData.getDouble("Legend.Attributes.Speed");
-        double attackSpeed = playerData.getDouble("Legend.Attributes.Attack_Speed");
+        double toughness = playerData.getDouble("Legend.Attributes.Tenacity.Toughness");
+        double knockbackResistance = playerData.getDouble("Legend.Attributes.Tenacity.Knockback_Resistance");
+        double speed = playerData.getDouble("Legend.Attributes.Haste.Speed");
+        double attackSpeed = playerData.getDouble("Legend.Attributes.Haste.Attack_Speed");
         double precision = playerData.getDouble("Legend.Attributes.Precision");
         double ferocity = playerData.getDouble("Legend.Attributes.Ferocity");
         Rank rank = Rank.valueOf(playerData.getString("Legend.Rank"));
+
         return new Legend(lifeForce, strength, toughness, knockbackResistance, speed, attackSpeed, precision, ferocity, rank);
     }
 
@@ -77,10 +78,10 @@ public class PlayerDataManager {
             playerData.set("Legend.Rank", rank);
             playerData.set("Legend.Attributes.Life_Force", chosenClass.lifeForce);
             playerData.set("Legend.Attributes.Strength", chosenClass.strength);
-            playerData.set("Legend.Attributes.Toughness", chosenClass.toughness);
-            playerData.set("Legend.Attributes.Knockback_Resistance", chosenClass.knockbackResistance);
-            playerData.set("Legend.Attributes.Speed", chosenClass.speed);
-            playerData.set("Legend.Attributes.Attack_Speed", chosenClass.attackSpeed);
+            playerData.set("Legend.Attributes.Tenacity.Toughness", chosenClass.toughness);
+            playerData.set("Legend.Attributes.Tenacity.Knockback_Resistance", chosenClass.knockbackResistance);
+            playerData.set("Legend.Attributes.Haste.Speed", chosenClass.speed);
+            playerData.set("Legend.Attributes.Haste.Attack_Speed", chosenClass.attackSpeed);
             playerData.set("Legend.Attributes.Precision", chosenClass.precision);
             playerData.set("Legend.Attributes.Ferocity", chosenClass.ferocity);
             playerData.save(playerFile);
