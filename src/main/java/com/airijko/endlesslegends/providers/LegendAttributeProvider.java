@@ -1,13 +1,13 @@
 package com.airijko.endlesslegends.providers;
 
-import com.airijko.endlesscore.interfaces.AttributeModifierProvider;
+import com.airijko.endlesscore.interfaces.AttributeModifierInterface;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.legends.Legend;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class LegendAttributeProvider implements AttributeModifierProvider {
+public class LegendAttributeProvider implements AttributeModifierInterface {
     private final PlayerDataManager playerDataManager;
 
     public LegendAttributeProvider(PlayerDataManager playerDataManager) {
@@ -27,11 +27,11 @@ public class LegendAttributeProvider implements AttributeModifierProvider {
                 return legend.strength;
             case "Toughness":
                 return legend.toughness;
-            case "Knockback Resistance":
+            case "Knockback_Resistance":
                 return legend.knockbackResistance;
-            case "Movement Speed":
+            case "Movement_Speed":
                 return legend.speed;
-            case "Attack Speed":
+            case "Attack_Speed":
                 return legend.attackSpeed;
             case "Precision":
                 return legend.precision;
@@ -50,6 +50,6 @@ public class LegendAttributeProvider implements AttributeModifierProvider {
 
     @Override
     public Set<String> getAttributeNames() {
-        return new HashSet<>(Arrays.asList("Life_Force", "Strength", "Toughness", "Knockback Resistance", "Movement Speed", "Attack Speed", "Precision", "Ferocity"));
+        return new HashSet<>(Arrays.asList("Life_Force", "Strength", "Toughness", "Knockback_Resistance", "Movement_Speed", "Attack_Speed", "Precision", "Ferocity"));
     }
 }
