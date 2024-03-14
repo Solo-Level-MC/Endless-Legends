@@ -6,7 +6,7 @@ public class LegendFactory {
             case "draftclass":
                 return new DraftClass(rank);
             default:
-                return null;
+                return new Default();
         }
     }
 }

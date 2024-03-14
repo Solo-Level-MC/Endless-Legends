@@ -1,7 +1,7 @@
 package com.airijko.endlesslegends.legends;
 
 public enum Rank {
-    E, D, C, B, A, S;
+    NONE, E, D, C, B, A, S;
 
     public double getValue() {
         switch (this) {
