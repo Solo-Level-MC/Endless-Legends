@@ -14,12 +14,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public class ChooseClassCMD implements CommandExecutor {
-    private final JavaPlugin plugin;
     private final PlayerDataManager playerDataManager;
     private final LegendFactory legendFactory;
 
-    public ChooseClassCMD(JavaPlugin plugin, PlayerDataManager playerDataManager) {
-        this.plugin = plugin;
+    public ChooseClassCMD(PlayerDataManager playerDataManager) {
         this.playerDataManager = playerDataManager;
         this.legendFactory = new LegendFactory();
     }

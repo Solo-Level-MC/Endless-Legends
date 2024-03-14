@@ -6,7 +6,6 @@ import com.airijko.endlesslegends.commands.ChooseClassCMD;
 import com.airijko.endlesslegends.listeners.*;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.providers.LegendAttributeProvider;
-import com.airijko.endlesslegends.legends.Legend;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -30,7 +29,7 @@ public final class EndlessLegends extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager), this);
 
-        Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new ChooseClassCMD(this, playerDataManager));
+        Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new ChooseClassCMD(playerDataManager));
     }
 
     @Override
