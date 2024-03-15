@@ -1,24 +1,27 @@
 package com.airijko.endlesslegends.managers;
 
 import com.airijko.endlesscore.EndlessCore;
+import com.airijko.endlesslegends.legends.ClassType;
+import com.airijko.endlesslegends.legends.LegendLoader;
 import com.airijko.endlesslegends.legends.Legend;
-import com.airijko.endlesslegends.legends.LegendFactory;
 import com.airijko.endlesslegends.legends.Rank;
-import com.airijko.endlesslegends.legends.Default;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlayerDataManager {
     public final JavaPlugin plugin;
+    public final LegendLoader legendLoader;
 
-    public PlayerDataManager(JavaPlugin plugin) {
+    public PlayerDataManager(JavaPlugin plugin, LegendLoader legendLoader) {
         this.plugin = plugin;
-        createPlayerDataFolder();
+        this.legendLoader = legendLoader;
     }
 
     public File getPlayerDataFile(UUID playerUUID) {
@@ -61,43 +64,46 @@ public class PlayerDataManager {
         }
 
         Rank rank = Rank.valueOf(rankName);
-        return new LegendFactory().getLegend(className, rank);
-    }
-
-    private void createPlayerDataFolder() {
-        File playerDataFolder = new File(plugin.getDataFolder(), "playerdata");
-        if (!playerDataFolder.exists()) {
-            if (!playerDataFolder.mkdir()) {
-                plugin.getLogger().log(Level.SEVERE, "Failed to create the playerdata folder.");
-            }
-        }
+        return new LegendLoader(plugin).loadLegend(className, rank);
     }
 
     public Legend setDefaultClass(UUID playerUUID) {
-        Legend defaultClass = new Default();
+        File configFile = new File(plugin.getDataFolder() + "/legends", "Default.yml");
+        if (!configFile.exists()) {
+            plugin.getLogger().severe("Default class not found");
+            return null;
+        }
+
+        Legend defaultClass = new Legend(configFile, Rank.NONE);
         setPlayerClassAndRank(playerUUID, defaultClass, Rank.NONE.name());
         return defaultClass;
     }
 
     public void setPlayerClassAndRank(UUID playerUUID, Legend chosenClass, String rank) {
-        File playerFile = new File(plugin.getDataFolder() + File.separator + "playerdata", playerUUID + ".yml");
+        Player player = Bukkit.getPlayer(playerUUID);
+        Legend legend = legendLoader.loadLegend(chosenClass.className, Rank.valueOf(rank));
+        chosenClass.className = legend.className;
+        chosenClass.type = legend.type;
+        chosenClass.rank = Rank.valueOf(rank);
+        savePlayerData(playerUUID, chosenClass);
+        EndlessCore.getInstance().getAttributeManager().applyAttributeModifiers(player);
+    }
+
+    public ClassType getPlayerClassType(UUID playerUUID) {
+        Legend playerClass = getPlayerData(playerUUID);
+        return ClassType.valueOf(playerClass.type.toUpperCase());
+    }
+
+    public void savePlayerData(UUID playerUUID, Legend chosenClass) {
+        File playerFile = getPlayerDataFile(playerUUID);
+        YamlConfiguration playerData = YamlConfiguration.loadConfiguration(playerFile);
+        playerData.set("Legend.Class", chosenClass.className);
+        playerData.set("Legend.Rank", chosenClass.rank.name());
+        playerData.set("Legend.Type", chosenClass.type);
         try {
-            Player player = plugin.getServer().getPlayer(playerUUID);
-            YamlConfiguration playerData = YamlConfiguration.loadConfiguration(playerFile);
-            playerData.set("Legend.Class", chosenClass.getClass().getSimpleName());
-            playerData.set("Legend.Rank", rank);
-            playerData.set("Legend.Attributes.Life_Force", chosenClass.lifeForce);
-            playerData.set("Legend.Attributes.Strength", chosenClass.strength);
-            playerData.set("Legend.Attributes.Tenacity.Toughness", chosenClass.toughness);
-            playerData.set("Legend.Attributes.Tenacity.Knockback_Resistance", chosenClass.knockbackResistance);
-            playerData.set("Legend.Attributes.Haste.Speed", chosenClass.speed);
-            playerData.set("Legend.Attributes.Haste.Attack_Speed", chosenClass.attackSpeed);
-            playerData.set("Legend.Attributes.Precision", chosenClass.precision);
-            playerData.set("Legend.Attributes.Ferocity", chosenClass.ferocity);
             playerData.save(playerFile);
-            EndlessCore.getInstance().getAttributeManager().applyAttributeModifiers(player);
-        } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, "An error occurred while saving player class and rank.", e);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Could not save player data for UUID " + playerUUID, e);
         }
     }
 }
