@@ -3,7 +3,9 @@ package com.airijko.endlesslegends;
 import com.airijko.endlesscore.EndlessCore;
 import com.airijko.endlesscore.managers.AttributeManager;
 import com.airijko.endlesslegends.commands.ChooseClassCMD;
+import com.airijko.endlesslegends.legends.LegendLoader;
 import com.airijko.endlesslegends.listeners.*;
+import com.airijko.endlesslegends.managers.DirectoryInitializer;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.providers.LegendAttributeProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,13 +16,15 @@ import java.util.Objects;
 public final class EndlessLegends extends JavaPlugin {
     private PlayerDataManager playerDataManager;
     private LegendAttributeProvider legendAttributeProvider;
+    private LegendLoader legendLoader;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        createDataFolder();
+        new DirectoryInitializer(this).initializeDirectories();
 
-        playerDataManager = new PlayerDataManager(this);
+        legendLoader = new LegendLoader(this);
+        playerDataManager = new PlayerDataManager(this, legendLoader);
         legendAttributeProvider = new LegendAttributeProvider(playerDataManager);
 
         EndlessCore endlessCore = EndlessCore.getInstance();
@@ -28,25 +32,13 @@ public final class EndlessLegends extends JavaPlugin {
         attributeManager.registerProvider(legendAttributeProvider);
 
         getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager), this);
+        getServer().getPluginManager().registerEvents(new ClassTypeListener(playerDataManager), this);
 
-        Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new ChooseClassCMD(playerDataManager));
+        Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new ChooseClassCMD(playerDataManager, legendLoader));
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    private void createDataFolder() {
-        File dataFolder = this.getDataFolder();
-        if (!dataFolder.exists()) {
-            try {
-                if (!dataFolder.mkdir()) {
-                    getLogger().severe("Could not create data folder: " + dataFolder);
-                }
-            } catch (SecurityException e) {
-                getLogger().severe("Permission denied: " + e.getMessage());
-            }
-        }
     }
 }
