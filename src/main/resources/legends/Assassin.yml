@@ -1,0 +1,14 @@
+# Assassin.yml
+Legend:
+  Class: Assassin
+  Rank: DYNAMIC
+  Type: ASSASSIN
+  Attributes:
+    Life_Force: 25.0
+    Strength: 5.0
+    Toughness: 1.25
+    Knockback_Resistance: 0.0
+    Speed: 0.095
+    Attack_Speed: 3.25
+    Precision: 15.0
+    Ferocity: 50.0

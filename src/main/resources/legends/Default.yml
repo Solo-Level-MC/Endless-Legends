@@ -1,0 +1,14 @@
+# Default.yml is the default class file for the plugin. Create your class based on this file.
+Legend:
+  Class: Default
+  Rank: NONE
+  Type: DEFAULT
+  Attributes:
+    Life_Force: 20
+    Strength: 1
+    Toughness: 0
+    Knockback_Resistance: 0
+    Speed: 0.1
+    Attack_Speed: 4
+    Precision: 0
+    Ferocity: 0

@@ -1,0 +1,14 @@
+# Archer.yml
+Legend:
+  Class: Archer
+  Rank: DYNAMIC
+  Type: ARCHER
+  Attributes:
+    Life_Force: 25.0
+    Strength: 20.0
+    Toughness: 1.0
+    Knockback_Resistance: 0.0
+    Speed: 0.09
+    Attack_Speed: 3.0
+    Precision: 25.0
+    Ferocity: 75.0
