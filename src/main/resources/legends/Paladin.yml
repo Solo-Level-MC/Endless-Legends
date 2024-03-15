@@ -1,0 +1,14 @@
+# Paladin.yml
+Legend:
+  Class: Paladin
+  Rank: DYNAMIC
+  Type: TANK
+  Attributes:
+    Life_Force: 50.0
+    Strength: 3.0
+    Toughness: 3.0
+    Knockback_Resistance: 0.4
+    Speed: 0.075
+    Attack_Speed: 3.0
+    Precision: 10.0
+    Ferocity: 20.0

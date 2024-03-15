@@ -1,0 +1,14 @@
+# Warrior.yml
+Legend:
+  Class: Warrior
+  Rank: DYNAMIC
+  Type: WARRIOR
+  Attributes:
+    Life_Force: 30.0
+    Strength: 7.5
+    Toughness: 2.0
+    Knockback_Resistance: 0.2
+    Speed: 0.085
+    Attack_Speed: 3.5
+    Precision: 20.0
+    Ferocity: 40.0

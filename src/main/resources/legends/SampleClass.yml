@@ -1,0 +1,14 @@
+# SampleClass.yml
+Legend:
+  Class: SampleClass
+  Rank: DYNAMIC
+  Type: WARRIOR
+  Attributes:
+    Life_Force: 30.0
+    Strength: 2.0
+    Toughness: 1.0
+    Knockback_Resistance: 0.5
+    Speed: 0.2
+    Attack_Speed: 5.0
+    Precision: 1.0
+    Ferocity: 1.0
