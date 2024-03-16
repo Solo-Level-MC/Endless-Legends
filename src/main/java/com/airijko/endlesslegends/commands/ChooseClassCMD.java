@@ -1,6 +1,6 @@
 package com.airijko.endlesslegends.commands;
 
-import com.airijko.endlesslegends.GUI.LegendClassGUI;
+import com.airijko.endlesslegends.gui.LegendClassGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
