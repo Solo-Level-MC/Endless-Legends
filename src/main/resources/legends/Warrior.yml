@@ -1,10 +1,11 @@
 # Warrior.yml
 Legend:
-  DisplayName: Warrior
+  DisplayName: "&#FA3D3D&lW&#F84B4B&lA&#F55959&lR&#E84866&lR&#DB3772&lI&#E3386C&lO&#EA3965&lR"
   Class: Warrior
   Rank: DYNAMIC
   Type: WARRIOR
   Description:
+    - ''
     - '&2&l→ &a&lCLICK TO CHOOSE &2&l←'
     - ''
     - '&c❤ Life Force &f»&7 '
@@ -18,6 +19,7 @@ Legend:
     - ''
     - '&3Passive:'
     - '&7None'
+    - ''
   Attributes:
     Life_Force: 30.0
     Strength: 7.5

@@ -1,10 +1,11 @@
 # Assassin.yml
 Legend:
-  DisplayName: Assassin
+  DisplayName: "&#FA3DF8&lA&#DE47F5&lS&#C251F3&lS&#9848D9&lA&#6737B2&lS&#4D2D95&lS&#633387&lI&#78397A&lN"
   Class: Assassin
   Rank: DYNAMIC
   Type: ASSASSIN
   Description:
+    - ''
     - '&2&l→ &a&lCLICK TO CHOOSE &2&l←'
     - ''
     - '&c❤ Life Force &f»&7 '
@@ -18,6 +19,7 @@ Legend:
     - ''
     - '&3Passive:'
     - '&7None'
+    - ''
   Attributes:
     Life_Force: 25.0
     Strength: 5.0

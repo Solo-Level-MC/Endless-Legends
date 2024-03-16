@@ -1,10 +1,11 @@
 # Archer.yml
 Legend:
-  DisplayName: Archer
+  DisplayName: "&#3DFA6F&lA&#49FB81&lR&#56FC93&lC&#62FDA4&lH&#6FFEB6&lE&#7BFFC8&lR"
   Class: Archer
   Rank: DYNAMIC
   Type: ARCHER
   Description:
+    - ''
     - '&2&l→ &a&lCLICK TO CHOOSE &2&l←'
     - ''
     - '&c❤ Life Force &f»&7 '
@@ -18,6 +19,7 @@ Legend:
     - ''
     - '&3Passive:'
     - '&7None'
+    - ''
   Attributes:
     Life_Force: 25.0
     Strength: 20.0

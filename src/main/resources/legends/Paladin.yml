@@ -1,10 +1,11 @@
 # Paladin.yml
 Legend:
-  DisplayName: Paladin
+  DisplayName: "&#ACFA3D&lP&#9CF649&lA&#8CF254&lL&#A6E746&lA&#BFDB37&lD&#DFED1D&lI&#FFFE03&lN"
   Class: Paladin
   Rank: DYNAMIC
   Type: TANK
   Description:
+    - ''
     - '&2&l→ &a&lCLICK TO CHOOSE &2&l←'
     - ''
     - '&c❤ Life Force &f»&7 '
@@ -18,6 +19,7 @@ Legend:
     - ''
     - '&3Passive:'
     - '&7None'
+    - ''
   Attributes:
     Life_Force: 50.0
     Strength: 3.0
