@@ -7,10 +7,6 @@ commands:
   endlesslegends:
     description: Main command for EndlessLegends.
     usage: /<command> [reload|getattributesummary|profile|class|cc|chooseclass]
-  class:
-    description: Choose your class
-    usage: /<command>
-    aliases: [cc]
   chooseclass:
     description: Choose your class
     usage: /<command> <class>
@@ -19,4 +15,3 @@ commands:
     description: Choose your class
     usage: /<command> <class>
     aliases: [cc]
-
