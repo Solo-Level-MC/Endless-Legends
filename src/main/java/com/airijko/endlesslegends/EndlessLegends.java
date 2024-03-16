@@ -2,10 +2,10 @@ package com.airijko.endlesslegends;
 
 import com.airijko.endlesscore.EndlessCore;
 import com.airijko.endlesscore.managers.AttributeManager;
-import com.airijko.endlesslegends.gui.LegendClassGUI;
 import com.airijko.endlesslegends.commands.EndlessLegendCMD;
 import com.airijko.endlesslegends.commands.TestChooseClassCMD;
 import com.airijko.endlesslegends.commands.TestClassCMD;
+import com.airijko.endlesslegends.gui.LegendClassGUI;
 import com.airijko.endlesslegends.legends.ClassType;
 import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.legends.Rank;
@@ -46,7 +46,8 @@ public final class EndlessLegends extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new TestChooseClassCMD(playerDataManager, legendManager));
         Objects.requireNonNull(this.getCommand("testchooseclass")).setExecutor(new TestClassCMD(playerDataManager, legendManager));
-        Objects.requireNonNull(getCommand("endlesslegends")).setExecutor(new EndlessLegendCMD(legendClassGUI));
+        Objects.requireNonNull(this.getCommand("endlesslegends")).setExecutor(new EndlessLegendCMD(legendClassGUI));
+//        Objects.requireNonNull(getCommand("endlesslegends")).setExecutor(new EndlessLegendCMD(legendClassGUI));
     }
 
     @Override
