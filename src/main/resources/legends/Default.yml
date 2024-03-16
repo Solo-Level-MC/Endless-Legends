@@ -1,8 +1,23 @@
 # Default.yml is the default class file for the plugin. Create your class based on this file.
 Legend:
+  DisplayName: Default
   Class: Default
   Rank: NONE
   Type: DEFAULT
+  Description:
+    - '&2&l→ &a&lCLICK TO CHOOSE &2&l←'
+    - ''
+    - '&c❤ Life Force &f»&7 '
+    - '&6⚔ Strength &f»&7 '
+    - '&9⛨ Toughness &f»&7 '
+    - '&a⌘ Knockback Resistance &f»&7 '
+    - '&b☁ Speed &f»&7 '
+    - '&e☄ Attack Speed &f»&7 '
+    - '&d✦ Precision &f»&7 '
+    - '&5❂ Ferocity &f»&7 '
+    - ''
+    - '&3Passive:'
+    - '&7None'
   Attributes:
     Life_Force: 20
     Strength: 1
