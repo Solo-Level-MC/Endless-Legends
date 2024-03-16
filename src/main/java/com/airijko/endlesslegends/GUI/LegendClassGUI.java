@@ -24,14 +24,18 @@ public class LegendClassGUI {
 
     public void classSelectionGUI(Player player) {
         gui = Bukkit.createInventory(null, InventoryType.CHEST, Component.text("Class Selection"));
+
         ItemStack archerItem = createItem(Material.BOW, ClassType.ARCHER);
         ItemStack warriorItem = createItem(Material.IRON_SWORD, ClassType.WARRIOR);
         ItemStack assassinItem = createItem(Material.DIAMOND_SWORD, ClassType.ASSASSIN);
         ItemStack tankItem = createItem(Material.SHIELD, ClassType.TANK);
+
         gui.setItem(4, archerItem);
         gui.setItem(11, warriorItem);
         gui.setItem(15, assassinItem);
         gui.setItem(22, tankItem);
+
+        fillEmptySlots(gui);
         player.openInventory(gui);
     }
 
@@ -54,5 +58,20 @@ public class LegendClassGUI {
             item.setItemMeta(meta);
         }
         return item;
+    }
+
+    private void fillEmptySlots(Inventory inventory) {
+        ItemStack invisibleItem = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemMeta meta = invisibleItem.getItemMeta();
+        if (meta != null) {
+            meta.displayName(Component.text(" "));
+            invisibleItem.setItemMeta(meta);
+        }
+
+        for (int i = 0; i < inventory.getSize(); i++) {
+            if (inventory.getItem(i) == null) {
+                inventory.setItem(i, invisibleItem);
+            }
+        }
     }
 }
