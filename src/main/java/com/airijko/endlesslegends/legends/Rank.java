@@ -1,24 +1,37 @@
 package com.airijko.endlesslegends.legends;
 
-public enum Rank {
-    NONE, E, D, C, B, A, S;
+import org.bukkit.plugin.java.JavaPlugin;
 
-    public double getValue() {
-        switch (this) {
-            case E:
-                return 1.0;
-            case D:
-                return 2.0;
-            case C:
-                return 3.0;
-            case B:
-                return 4.0;
-            case A:
-                return 5.0;
-            case S:
-                return 6.0;
-            default:
-                throw new IllegalArgumentException("Unexpected value: " + this);
+public enum Rank {
+    NONE("rank_weights.NONE"),
+    E("rank_weights.E"),
+    D("rank_weights.D"),
+    C("rank_weights.C"),
+    B("rank_weights.B"),
+    A("rank_weights.A"),
+    S("rank_weights.S");
+
+    private int weight;
+    private final String path;
+
+    Rank(String path) {
+        this.path = path;
+    }
+
+    public int getWeight() {
+        return this.weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public static void loadWeights(JavaPlugin plugin) {
+        for (Rank rank : Rank.values()) {
+            if (rank != Rank.NONE) {
+                int weight = plugin.getConfig().getInt(rank.path);
+                rank.setWeight(weight);
+            }
         }
     }
 }
