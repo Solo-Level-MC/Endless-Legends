@@ -43,11 +43,11 @@ public final class EndlessLegends extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager), this);
         getServer().getPluginManager().registerEvents(new ClassTypeListener(playerDataManager), this);
+        getServer().getPluginManager().registerEvents(new EndlessGUIListener(legendClassGUI, legendManager, playerDataManager), this);
 
         Objects.requireNonNull(this.getCommand("chooseclass")).setExecutor(new TestChooseClassCMD(playerDataManager, legendManager));
         Objects.requireNonNull(this.getCommand("testchooseclass")).setExecutor(new TestClassCMD(playerDataManager, legendManager));
         Objects.requireNonNull(this.getCommand("endlesslegends")).setExecutor(new EndlessLegendCMD(legendClassGUI));
-//        Objects.requireNonNull(getCommand("endlesslegends")).setExecutor(new EndlessLegendCMD(legendClassGUI));
     }
 
     @Override
