@@ -1,10 +1,12 @@
 package com.airijko.endlesslegends.managers;
 
 import com.airijko.endlesscore.EndlessCore;
+
+import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.legends.ClassType;
-import com.airijko.endlesslegends.legends.LegendLoader;
 import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.legends.Rank;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -12,16 +14,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlayerDataManager {
     public final JavaPlugin plugin;
-    public final LegendLoader legendLoader;
+    public final LegendManager legendManager;
 
-    public PlayerDataManager(JavaPlugin plugin, LegendLoader legendLoader) {
+    public PlayerDataManager(JavaPlugin plugin, LegendManager legendManager) {
         this.plugin = plugin;
-        this.legendLoader = legendLoader;
+        this.legendManager = legendManager;
     }
 
     public File getPlayerDataFile(UUID playerUUID) {
@@ -64,7 +69,7 @@ public class PlayerDataManager {
         }
 
         Rank rank = Rank.valueOf(rankName);
-        return new LegendLoader(plugin).loadLegend(className, rank);
+        return new LegendManager(plugin).loadLegend(className, rank);
     }
 
     public Legend setDefaultClass(UUID playerUUID) {
@@ -81,7 +86,7 @@ public class PlayerDataManager {
 
     public void setPlayerClassAndRank(UUID playerUUID, Legend chosenClass, String rank) {
         Player player = Bukkit.getPlayer(playerUUID);
-        Legend legend = legendLoader.loadLegend(chosenClass.className, Rank.valueOf(rank));
+        Legend legend = legendManager.loadLegend(chosenClass.className, Rank.valueOf(rank));
         chosenClass.className = legend.className;
         chosenClass.type = legend.type;
         chosenClass.rank = Rank.valueOf(rank);
@@ -92,6 +97,18 @@ public class PlayerDataManager {
     public ClassType getPlayerClassType(UUID playerUUID) {
         Legend playerClass = getPlayerData(playerUUID);
         return ClassType.valueOf(playerClass.type.toUpperCase());
+    }
+
+    public Rank getPlayerRank(UUID playerUUID) {
+        Legend playerClass = getPlayerData(playerUUID);
+        return playerClass.rank;
+    }
+
+    public Rank setPlayerRank(UUID playerUUID, Rank rank) {
+        Legend playerClass = getPlayerData(playerUUID);
+        playerClass.rank = rank;
+        savePlayerData(playerUUID, playerClass);
+        return playerClass.rank;
     }
 
     public void savePlayerData(UUID playerUUID, Legend chosenClass) {
