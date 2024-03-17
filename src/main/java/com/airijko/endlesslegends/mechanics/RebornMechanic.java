@@ -4,11 +4,15 @@ import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.utils.TitleDisplay;
+import com.airijko.endlesslegends.legends.Rank;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class RebornMechanic {
@@ -31,39 +35,66 @@ public class RebornMechanic {
     }
 
     public void handlePlayerDeath(Player player) {
-        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-        boolean resetClassOnDeath = plugin.getPluginConfig().getBoolean(Config.RESET_CLASS_ON_DEATH.getPath());
-        UUID playerUUID = player.getUniqueId();
+        if (!awakenPlayer(player)) {
+            EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+            boolean resetClassOnDeath = plugin.getPluginConfig().getBoolean(Config.RESET_CLASS_ON_DEATH.getPath());
 
-        deathCooldown(player);
-
-        if (resetClassOnDeath) {
-            playerDataManager.resetToDefaultClass(playerUUID);
+            if (resetClassOnDeath) {
+                deathCooldown(player);
+                setLastDeathTimes(player);
+            }
         }
     }
 
     public void deathCooldown(Player player) {
         UUID playerUUID = player.getUniqueId();
+        Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
+
         long lastDeathTime = lastDeathTimes.getOrDefault(playerUUID, 0L);
         long currentTime = System.currentTimeMillis() / 1000;
 
-        if (currentTime - lastDeathTime < getRebornCooldown()) {
+        if (currentRank == Rank.NONE || currentTime - lastDeathTime >= getRebornCooldown()) {
+            rebornPlayer(player);
+        } else {
             player.sendMessage("On cooldown");
             String title = "<red><b> YOU DIED! </b></red>";
-            String subtitle = "<dark_red> demoted </dark_red>";
-            TitleDisplay.sendTitle(player, title, subtitle);
-        } else {
-            rebornPlayer(player);
-        }
 
-        setLastDeathTimes(player);
+            Rank newRank = Rank.getRandomRankLowerOrEqual(currentRank);
+            playerDataManager.setPlayerRank(playerUUID, newRank);
+
+            String subtitle = (newRank == currentRank) ?
+                    "<yellow> maintained rank " + newRank.name() + " </yellow>" :
+                    "<dark_red> demoted to " + newRank.name() + " </dark_red>";
+
+            TitleDisplay.sendTitle(player, title, subtitle);
+        }
     }
 
     public void rebornPlayer(Player player) {
-        player.sendMessage("Reborn");
+        player.sendMessage("You have been reborn! Choose a class.");
+        playerDataManager.resetToDefaultClass(player.getUniqueId());
 
-        String title = "<green><b> REBORN! </b></green>";
+        String title = "<red><b> YOU DIED! </b></red>";
         String subtitle = "<yellow> choose a class </yellow>";
         TitleDisplay.sendTitle(player, title, subtitle);
+    }
+
+    public boolean awakenPlayer(Player player) {
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
+
+        if (new Random().nextDouble() <= awakenChance / 100) {
+            UUID playerUUID = player.getUniqueId();
+            Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
+            Rank newRank = Rank.getRandomRankHigher(currentRank);
+            playerDataManager.setPlayerRank(playerUUID, newRank);
+
+            String title = "<blue><b> AWAKENED! </b></blue>";
+            String subtitle = "<green> Promoted to " + newRank.name() + " </green>";
+            TitleDisplay.sendTitle(player, title, subtitle);
+
+            return true;
+        }
+        return false;
     }
 }
