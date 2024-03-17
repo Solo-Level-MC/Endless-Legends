@@ -9,8 +9,9 @@ rank_weights:
 
 # Class Mechanic
 allow_class_change: false
-class_change_cooldown: 30 # Cooldown in seconds for class change
+class_change_cooldown: 1800 # Cooldown in seconds for class change
 
 # Reborn Mechanic
 reset_class_on_death: true
-reborn_cooldown: 30 # Cooldown in seconds for reborn
+reborn_cooldown: 1800 # Cooldown in seconds for reborn
+awaken_chance: 1 # Chance in percentage to awaken
