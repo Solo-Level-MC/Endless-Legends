@@ -4,6 +4,7 @@ import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.gui.LegendClassGUI;
 
 import com.airijko.endlesslegends.legends.Legend;
+import com.airijko.endlesslegends.legends.Rank;
 import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
@@ -23,6 +24,7 @@ public class EndlessGUIListener implements Listener {
     private final LegendClassGUI legendClassGUI;
     private final LegendManager legendManager;
     private final PlayerDataManager playerDataManager;
+
     public EndlessGUIListener(LegendClassGUI legendClassGUI, LegendManager legendManager, PlayerDataManager playerDataManager) {
         this.legendClassGUI = legendClassGUI;
         this.legendManager = legendManager;
@@ -60,8 +62,19 @@ public class EndlessGUIListener implements Listener {
     }
 
     private void handleAction(InventoryClickEvent event, Player player) {
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        Rank currentRank = playerDataManager.getPlayerRank(player.getUniqueId());
+        boolean allowClassChange = plugin.getPluginConfig().getBoolean(Config.ALLOW_CLASS_CHANGE.getPath());
         long remainingCooldown = getRemainingCooldown(player);
-        if (remainingCooldown > 0) {
+
+        // If class change is not allowed, send a message and return
+        if (!allowClassChange && currentRank != Rank.NONE) {
+            player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.getMessage());
+            return;
+        }
+
+        // If class change is allowed but the cooldown has not passed, send a message with the remaining cooldown
+        if (remainingCooldown > 0 && currentRank != Rank.NONE) {
             player.sendMessage(Messages.ON_COOLDOWN.format(remainingCooldown));
             return;
         }
