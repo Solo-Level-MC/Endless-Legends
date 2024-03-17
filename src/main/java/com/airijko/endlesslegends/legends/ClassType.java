@@ -72,7 +72,7 @@ public enum ClassType {
         return attributes;
     }
 
-    public static List<String> assignAttributesToDescription(ClassType classType, Map<String, Double> attributes) {
+    public static void assignAttributesToDescription(ClassType classType, Map<String, Double> attributes) {
         List<String> description = new ArrayList<>(classType.getDescription());
         Map<String, Integer> attributeLineIndices = new HashMap<>();
         attributeLineIndices.put("Life_Force", 3);
@@ -94,7 +94,6 @@ public enum ClassType {
         }
 
         classType.setDescription(description);
-        return description;
     }
 
     public static void loadFromYaml(JavaPlugin plugin) {
