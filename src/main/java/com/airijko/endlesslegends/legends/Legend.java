@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 
 public class Legend {
+    public static String defaultClass = "Default";
     public String className;
     public String type;
     public double lifeForce;

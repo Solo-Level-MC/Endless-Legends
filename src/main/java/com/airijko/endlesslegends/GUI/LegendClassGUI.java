@@ -1,6 +1,11 @@
 package com.airijko.endlesslegends.gui;
 
+import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.legends.ClassType;
+import com.airijko.endlesslegends.legends.Legend;
+import com.airijko.endlesslegends.managers.PlayerDataManager;
+import com.airijko.endlesslegends.settings.Config;
+import com.airijko.endlesslegends.settings.Messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -10,19 +15,44 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class LegendClassGUI {
     private Inventory gui;
+    private final Map<UUID, Long> lastClassChangeTimes = new HashMap<>();
+    private final PlayerDataManager playerDataManager;
+
+    public LegendClassGUI(PlayerDataManager playerDataManager) {
+        this.playerDataManager = playerDataManager;
+    }
 
     public Inventory getInventory() {
         return gui;
     }
 
+    public long getLastClassChangeTime(Player player) {
+        return lastClassChangeTimes.getOrDefault(player.getUniqueId(), 0L);
+    }
+
+    public void setLastClassChangeTime(Player player) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        lastClassChangeTimes.put(player.getUniqueId(), currentTime);
+    }
+
     public void classSelectionGUI(Player player) {
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        boolean allowClassChange = plugin.getPluginConfig().getBoolean(Config.ALLOW_CLASS_CHANGE.getPath());
+
+        String currentClass = playerDataManager.getClassName(player.getUniqueId());
+
+        if (allowClassChange || !currentClass.equals(Legend.defaultClass)) {
+            player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.getMessage());
+            return;
+        }
+
         gui = Bukkit.createInventory(null, InventoryType.CHEST, Component.text("Class Selection"));
 
         ItemStack archerItem = createItem(Material.BOW, ClassType.ARCHER);
@@ -73,5 +103,25 @@ public class LegendClassGUI {
                 inventory.setItem(i, invisibleItem);
             }
         }
+    }
+
+    public void closeForAllPlayers() {
+        Bukkit.getLogger().info("Closing skills GUI for all online players...");
+
+        Inventory guiInventory = getInventory(); // Get the custom GUI's inventory
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Inventory openInventory = player.getOpenInventory().getTopInventory();
+            if (openInventory.equals(guiInventory)) { // Check if the open inventory is the custom GUI's inventory
+                player.closeInventory();
+                Bukkit.getLogger().info("Closed skills GUI for player: " + player.getName());
+            }
+        }
+
+        Bukkit.getLogger().info("Finished closing skills GUI for all online players.");
+    }
+
+    public void closeForPlayer(Player player) {
+        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(EndlessLegends.class), () -> player.closeInventory(), 1);
     }
 }
