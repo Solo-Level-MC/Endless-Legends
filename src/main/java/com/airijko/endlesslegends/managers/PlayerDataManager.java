@@ -2,7 +2,6 @@ package com.airijko.endlesslegends.managers;
 
 import com.airijko.endlesscore.EndlessCore;
 
-import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.legends.ClassType;
 import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.legends.Rank;
@@ -14,9 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -104,11 +100,15 @@ public class PlayerDataManager {
         return playerClass.rank;
     }
 
-    public Rank setPlayerRank(UUID playerUUID, Rank rank) {
+    public void setPlayerRank(UUID playerUUID, Rank rank) {
         Legend playerClass = getPlayerData(playerUUID);
         playerClass.rank = rank;
         savePlayerData(playerUUID, playerClass);
-        return playerClass.rank;
+    }
+
+    public String getClassName(UUID playerUUID) {
+        Legend playerClass = getPlayerData(playerUUID);
+        return String.valueOf(playerClass.className);
     }
 
     public void savePlayerData(UUID playerUUID, Legend chosenClass) {
@@ -122,5 +122,10 @@ public class PlayerDataManager {
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Could not save player data for UUID " + playerUUID, e);
         }
+    }
+
+    public void resetToDefaultClass(UUID playerUUID) {
+        Legend defaultClass = setDefaultClass(playerUUID);
+        savePlayerData(playerUUID, defaultClass);
     }
 }

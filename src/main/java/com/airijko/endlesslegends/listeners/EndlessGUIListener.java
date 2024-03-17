@@ -20,6 +20,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public class EndlessGUIListener implements Listener {
     private final LegendClassGUI legendClassGUI;
     private final LegendManager legendManager;
@@ -63,18 +65,18 @@ public class EndlessGUIListener implements Listener {
 
     private void handleAction(InventoryClickEvent event, Player player) {
         EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-        Rank currentRank = playerDataManager.getPlayerRank(player.getUniqueId());
+        String className = playerDataManager.getClassName(player.getUniqueId());
         boolean allowClassChange = plugin.getPluginConfig().getBoolean(Config.ALLOW_CLASS_CHANGE.getPath());
         long remainingCooldown = getRemainingCooldown(player);
 
         // If class change is not allowed, send a message and return
-        if (!allowClassChange && currentRank != Rank.NONE) {
+        if (!allowClassChange && !Objects.equals(className, Legend.defaultClass)) {
             player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.getMessage());
             return;
         }
 
         // If class change is allowed but the cooldown has not passed, send a message with the remaining cooldown
-        if (remainingCooldown > 0 && currentRank != Rank.NONE) {
+        if (remainingCooldown > 0 && !Objects.equals(className, Legend.defaultClass) {
             player.sendMessage(Messages.ON_COOLDOWN.format(remainingCooldown));
             return;
         }

@@ -2,7 +2,6 @@ package com.airijko.endlesslegends.gui;
 
 import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.legends.ClassType;
-import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.settings.Messages;
@@ -43,16 +42,6 @@ public class LegendClassGUI {
     }
 
     public void classSelectionGUI(Player player) {
-        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-        boolean allowClassChange = plugin.getPluginConfig().getBoolean(Config.ALLOW_CLASS_CHANGE.getPath());
-
-        String currentClass = playerDataManager.getClassName(player.getUniqueId());
-
-        if (allowClassChange || !currentClass.equals(Legend.defaultClass)) {
-            player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.getMessage());
-            return;
-        }
-
         gui = Bukkit.createInventory(null, InventoryType.CHEST, Component.text("Class Selection"));
 
         ItemStack archerItem = createItem(Material.BOW, ClassType.ARCHER);
