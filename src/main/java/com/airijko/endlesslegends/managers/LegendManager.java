@@ -35,18 +35,7 @@ public class LegendManager {
     }
 
     public Legend chooseClass(String chosenClassName) {
-        List<Rank> weightedRanks = new ArrayList<>();
-        for (Rank rank : Rank.values()) {
-            if (rank != Rank.NONE) {
-                for (int i = 0; i < rank.getWeight(); i++) {
-                    weightedRanks.add(rank);
-                }
-            }
-        }
-        Random random = new Random();
-        int randomIndex = random.nextInt(weightedRanks.size());
-        Rank randomRank = weightedRanks.get(randomIndex);
-
+        Rank randomRank = Rank.getRandomRank();
         return loadLegend(chosenClassName, randomRank);
     }
 }
