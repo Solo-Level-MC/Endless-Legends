@@ -76,7 +76,7 @@ public class EndlessGUIListener implements Listener {
         }
 
         // If class change is allowed but the cooldown has not passed, send a message with the remaining cooldown
-        if (remainingCooldown > 0 && !Objects.equals(className, Legend.defaultClass) {
+        if (remainingCooldown > 0 && !Objects.equals(className, Legend.defaultClass)) {
             player.sendMessage(Messages.ON_COOLDOWN.format(remainingCooldown));
             return;
         }
