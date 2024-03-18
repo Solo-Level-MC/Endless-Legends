@@ -2,6 +2,7 @@ package com.airijko.endlesslegends;
 
 import com.airijko.endlesscore.EndlessCore;
 import com.airijko.endlesscore.managers.AttributeManager;
+import com.airijko.endlesscore.permissions.Permissions;
 import com.airijko.endlesslegends.commands.EndlessLegendCMD;
 import com.airijko.endlesslegends.commands.TestChooseClassCMD;
 import com.airijko.endlesslegends.commands.TestClassCMD;
@@ -20,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public final class EndlessLegends extends JavaPlugin {
+    private Permissions permissions;
     private PlayerDataManager playerDataManager;
     private LegendAttributeProvider legendAttributeProvider;
     private LegendManager legendManager;
@@ -34,6 +36,7 @@ public final class EndlessLegends extends JavaPlugin {
         new DirectoryInitializer(this).initializeDirectories();
         ClassType.loadFromYaml(this);
 
+        permissions = new Permissions();
         legendManager = new LegendManager(this);
         playerDataManager = new PlayerDataManager(this, legendManager);
         legendAttributeProvider = new LegendAttributeProvider(playerDataManager);
