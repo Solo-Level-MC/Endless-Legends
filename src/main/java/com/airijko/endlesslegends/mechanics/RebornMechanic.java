@@ -4,21 +4,21 @@ import com.airijko.endlesscore.interfaces.RespawnInterface;
 import com.airijko.endlesscore.utils.TitleDisplay;
 
 import com.airijko.endlesslegends.EndlessLegends;
+import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.legends.Rank;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class RebornMechanic implements RespawnInterface {
     private final PlayerDataManager playerDataManager;
     private final Map<UUID, Long> lastDeathTimes = new HashMap<>();
+    private final Map<UUID, Boolean> playerAwakenedMap = new HashMap<>();
     private final int rebornCooldown;
 
     public RebornMechanic(PlayerDataManager playerDataManager) {
@@ -41,28 +41,53 @@ public class RebornMechanic implements RespawnInterface {
 
         if (resetClassOnDeath) {
             deathCooldown(player);
-            setLastDeathTimes(player);
         }
     }
 
     @Override
     public void handleRespawn(Player player) {
-        if (!awakenPlayer()) {
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        plugin.getLogger().info("handleRespawn called for player: " + player.getName());
+
+        boolean playerAwakened = playerAwakenedMap.getOrDefault(player.getUniqueId(), false);
+
+        if (playerAwakened) {
+            plugin.getLogger().info("Player " + player.getName() + " has awakened");
             awakened(player);
+        } else {
+            plugin.getLogger().info("Player " + player.getName() + " has not awakened");
         }
+
+        playerAwakenedMap.remove(player.getUniqueId());
     }
 
     public void deathCooldown(Player player) {
         UUID playerUUID = player.getUniqueId();
         Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
+        String className = playerDataManager.getClassName(player.getUniqueId());
+        String defaultClass = Legend.defaultClass;
+        Bukkit.getLogger().info("class " + className);
+        Bukkit.getLogger().info("default " + defaultClass);
 
         long lastDeathTime = lastDeathTimes.getOrDefault(playerUUID, 0L);
         long currentTime = System.currentTimeMillis() / 1000;
 
         if (currentRank == Rank.NONE || currentTime - lastDeathTime >= getRebornCooldown()) {
-            rebornPlayer(player);
+            boolean playerAwakened = playerAwakened();
+
+            if (currentRank == Rank.S || currentRank == Rank.NONE) {
+                playerAwakened = false;
+            }
+
+            if (playerAwakened) {
+                player.sendMessage("re-awakening...");
+                playerAwakenedMap.put(player.getUniqueId(), true);
+            } else {
+                playerDeath(player);
+                setLastDeathTimes(player);
+            }
+
         } else {
-            player.sendMessage("On cooldown");
             String title = "<red><b> YOU DIED! </b></red>";
 
             Rank newRank = Rank.getRandomRankLowerOrEqual(currentRank);
@@ -76,8 +101,8 @@ public class RebornMechanic implements RespawnInterface {
         }
     }
 
-    public void rebornPlayer(Player player) {
-        player.sendMessage("<yellow> You have been reborn! Choose a class. </yellow>");
+    public void playerDeath(Player player) {
+        player.sendMessage("<yellow> Skill Issue... Choose a class! </yellow>");
         playerDataManager.resetToDefaultClass(player.getUniqueId());
 
         String title = "<red><b> YOU DIED! </b></red>";
@@ -96,7 +121,7 @@ public class RebornMechanic implements RespawnInterface {
         TitleDisplay.sendTitle(player, title, subtitle);
     }
 
-    public boolean awakenPlayer() {
+    public boolean playerAwakened() {
         EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
         double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
         return new Random().nextDouble() <= awakenChance / 100;
