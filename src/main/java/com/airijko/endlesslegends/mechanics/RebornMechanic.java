@@ -71,7 +71,7 @@ public class RebornMechanic {
     }
 
     public void rebornPlayer(Player player) {
-        player.sendMessage("You have been reborn! Choose a class.");
+        player.sendMessage("<yellow> You have been reborn! Choose a class.");
         playerDataManager.resetToDefaultClass(player.getUniqueId());
 
         String title = "<red><b> YOU DIED! </b></red>";
