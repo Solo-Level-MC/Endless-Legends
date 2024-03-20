@@ -1,5 +1,6 @@
 package com.airijko.endlesslegends.mechanics;
 
+import com.airijko.endlesscore.interfaces.RespawnInterface;
 import com.airijko.endlesscore.utils.TitleDisplay;
 
 import com.airijko.endlesslegends.EndlessLegends;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-public class RebornMechanic {
+public class RebornMechanic implements RespawnInterface {
     private final PlayerDataManager playerDataManager;
     private final Map<UUID, Long> lastDeathTimes = new HashMap<>();
     private final int rebornCooldown;
@@ -35,14 +36,19 @@ public class RebornMechanic {
     }
 
     public void handlePlayerDeath(Player player) {
-        if (!awakenPlayer(player)) {
-            EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-            boolean resetClassOnDeath = plugin.getPluginConfig().getBoolean(Config.RESET_CLASS_ON_DEATH.getPath());
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        boolean resetClassOnDeath = plugin.getPluginConfig().getBoolean(Config.RESET_CLASS_ON_DEATH.getPath());
 
-            if (resetClassOnDeath) {
-                deathCooldown(player);
-                setLastDeathTimes(player);
-            }
+        if (resetClassOnDeath) {
+            deathCooldown(player);
+            setLastDeathTimes(player);
+        }
+    }
+
+    @Override
+    public void handleRespawn(Player player) {
+        if (!awakenPlayer()) {
+            awakened(player);
         }
     }
 
@@ -79,10 +85,9 @@ public class RebornMechanic {
         TitleDisplay.sendTitle(player, title, subtitle);
     }
 
-    public boolean awakenPlayer(Player player) {
+    public void awakened(Player player) {
         EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
         double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
-
         if (new Random().nextDouble() <= awakenChance / 100) {
             UUID playerUUID = player.getUniqueId();
             Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
@@ -92,9 +97,10 @@ public class RebornMechanic {
             String title = "<blue><b> AWAKENED! </b></blue>";
             String subtitle = "<green> Promoted to " + newRank.name() + " </green>";
             TitleDisplay.sendTitle(player, title, subtitle);
-
-            return true;
         }
-        return false;
+    }
+
+    public boolean awakenPlayer() {
+        return true;
     }
 }

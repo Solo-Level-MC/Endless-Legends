@@ -1,8 +1,9 @@
 package com.airijko.endlesslegends;
 
 import com.airijko.endlesscore.EndlessCore;
+import com.airijko.endlesscore.interfaces.RespawnInterface;
 import com.airijko.endlesscore.managers.AttributeManager;
-import com.airijko.endlesscore.permissions.Permissions;
+
 import com.airijko.endlesslegends.commands.EndlessLegendCMD;
 import com.airijko.endlesslegends.commands.TestChooseClassCMD;
 import com.airijko.endlesslegends.commands.TestClassCMD;
@@ -16,12 +17,12 @@ import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.mechanics.RebornMechanic;
 import com.airijko.endlesslegends.providers.LegendAttributeProvider;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
 public final class EndlessLegends extends JavaPlugin {
-    private Permissions permissions;
     private PlayerDataManager playerDataManager;
     private LegendAttributeProvider legendAttributeProvider;
     private LegendManager legendManager;
@@ -36,7 +37,6 @@ public final class EndlessLegends extends JavaPlugin {
         new DirectoryInitializer(this).initializeDirectories();
         ClassType.loadFromYaml(this);
 
-        permissions = new Permissions();
         legendManager = new LegendManager(this);
         playerDataManager = new PlayerDataManager(this, legendManager);
         legendAttributeProvider = new LegendAttributeProvider(playerDataManager);
@@ -48,6 +48,7 @@ public final class EndlessLegends extends JavaPlugin {
         AttributeManager attributeManager = endlessCore.getAttributeManager();
         attributeManager.registerProvider(legendAttributeProvider);
 
+        getServer().getServicesManager().register(RespawnInterface.class, rebornMechanic, this, ServicePriority.Normal);
         getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(rebornMechanic), this);
         getServer().getPluginManager().registerEvents(new ClassTypeListener(playerDataManager), this);
