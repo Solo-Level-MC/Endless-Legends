@@ -48,7 +48,8 @@ public final class EndlessLegends extends JavaPlugin {
         AttributeManager attributeManager = endlessCore.getAttributeManager();
         attributeManager.registerProvider(legendAttributeProvider);
 
-        getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager, rebornMechanic), this);
+        getServer().getPluginManager().registerEvents(new PlayerEventListener(playerDataManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(rebornMechanic), this);
         getServer().getPluginManager().registerEvents(new ClassTypeListener(playerDataManager), this);
         getServer().getPluginManager().registerEvents(new EndlessGUIListener(legendClassGUI, legendManager, playerDataManager), this);
 

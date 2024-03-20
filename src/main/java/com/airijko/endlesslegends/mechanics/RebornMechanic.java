@@ -6,7 +6,6 @@ import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.utils.TitleDisplay;
 import com.airijko.endlesslegends.legends.Rank;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 

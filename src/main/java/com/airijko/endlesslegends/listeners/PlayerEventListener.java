@@ -12,22 +12,14 @@ import java.util.UUID;
 
 public class PlayerEventListener implements Listener {
     private final PlayerDataManager playerDataManager;
-    private final RebornMechanic rebornMechanic;
 
-    public PlayerEventListener(PlayerDataManager playerDataManager, RebornMechanic rebornMechanic) {
+    public PlayerEventListener(PlayerDataManager playerDataManager) {
         this.playerDataManager = playerDataManager;
-        this.rebornMechanic = rebornMechanic;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         UUID player = event.getPlayer().getUniqueId();
         playerDataManager.getPlayerDataFile(player);
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        rebornMechanic.handlePlayerDeath(player);
     }
 }
