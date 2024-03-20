@@ -70,7 +70,7 @@ public class EndlessGUIListener implements Listener {
 
         // If class change is not allowed, send a message and return
         if (!allowClassChange && !Objects.equals(className, Legend.defaultClass)) {
-            player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.getMessage());
+            player.sendMessage(Messages.NOT_ALLOWED_TO_SWITCH.format());
             return;
         }
 
