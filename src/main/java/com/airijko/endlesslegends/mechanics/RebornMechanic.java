@@ -71,7 +71,7 @@ public class RebornMechanic implements RespawnInterface {
             }
 
             if (playerAwakened) {
-                player.sendMessage("re-awakening...");
+                player.sendMessage(Messages.REAWAKENED.format());
                 playerAwakenedMap.put(player.getUniqueId(), true);
             } else {
                 playerDeath(player);
