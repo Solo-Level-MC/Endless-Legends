@@ -2,9 +2,6 @@ package com.airijko.endlesslegends.gui;
 
 import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.legends.ClassType;
-import com.airijko.endlesslegends.managers.PlayerDataManager;
-import com.airijko.endlesslegends.settings.Config;
-import com.airijko.endlesslegends.settings.Messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -22,12 +19,6 @@ import java.util.*;
 public class LegendClassGUI {
     private Inventory gui;
     private final Map<UUID, Long> lastClassChangeTimes = new HashMap<>();
-    private final PlayerDataManager playerDataManager;
-
-    public LegendClassGUI(PlayerDataManager playerDataManager) {
-        this.playerDataManager = playerDataManager;
-    }
-
     public Inventory getInventory() {
         return gui;
     }
@@ -95,8 +86,6 @@ public class LegendClassGUI {
     }
 
     public void closeForAllPlayers() {
-        Bukkit.getLogger().info("Closing skills GUI for all online players...");
-
         Inventory guiInventory = getInventory(); // Get the custom GUI's inventory
 
         for (Player player : Bukkit.getOnlinePlayers()) {
