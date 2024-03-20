@@ -1,15 +1,14 @@
 package com.airijko.endlesslegends.listeners;
 
+import com.airijko.endlesscore.utils.TitleDisplay;
+
 import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.gui.LegendClassGUI;
-
 import com.airijko.endlesslegends.legends.Legend;
-import com.airijko.endlesslegends.legends.Rank;
 import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.settings.Messages;
-import com.airijko.endlesslegends.utils.TitleDisplay;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

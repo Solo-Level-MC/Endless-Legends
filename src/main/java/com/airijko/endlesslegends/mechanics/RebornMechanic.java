@@ -1,9 +1,10 @@
 package com.airijko.endlesslegends.mechanics;
 
+import com.airijko.endlesscore.utils.TitleDisplay;
+
 import com.airijko.endlesslegends.EndlessLegends;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
-import com.airijko.endlesslegends.utils.TitleDisplay;
 import com.airijko.endlesslegends.legends.Rank;
 
 import org.bukkit.entity.Player;

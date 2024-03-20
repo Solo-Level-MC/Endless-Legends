@@ -1,9 +1,10 @@
 package com.airijko.endlesslegends.commands;
 
+import com.airijko.endlesscore.utils.TitleDisplay;
+
 import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.managers.LegendManager;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
-import com.airijko.endlesslegends.utils.TitleDisplay;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
