@@ -1,11 +1,13 @@
 package com.airijko.endlesslegends.settings;
 
+import com.airijko.endlesscore.utils.FormatMessage;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public enum Messages {
     NOT_ALLOWED_TO_SWITCH("&cYou are not allowed to switch classes."),
-    ON_COOLDOWN("&ePlease wait %s seconds before switching classes.");
+    ON_COOLDOWN("&ePlease wait %s seconds before switching classes."),
+    REAWAKENED("&are-awaking..."),
+    PLAYER_DEATH("&cSkill Issue... \n&eChoose a class!");
 
     private final String message;
 
@@ -13,12 +15,7 @@ public enum Messages {
         this.message = message;
     }
 
-    public Component getMessage() {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(message);
-    }
-
     public Component format(Object... args) {
-        String formattedMessage = String.format(message, args);
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(formattedMessage);
+        return FormatMessage.format(this.message, args);
     }
 }
