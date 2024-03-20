@@ -62,12 +62,21 @@ public enum Rank {
                 }
             }
         }
+
+        if (weightedRanks.isEmpty()) {
+            return Rank.NONE;
+        }
+
         Random random = new Random();
         int randomIndex = random.nextInt(weightedRanks.size());
         return weightedRanks.get(randomIndex);
     }
 
     public static Rank getRandomRankHigher(Rank lowerBound) {
+        if (lowerBound == Rank.S) {
+            return Rank.S;
+        }
+
         List<Rank> weightedRanks = new ArrayList<>();
         for (Rank rank : Rank.values()) {
             if (rank != Rank.NONE && rank.ordinal() > lowerBound.ordinal()) {
@@ -76,6 +85,7 @@ public enum Rank {
                 }
             }
         }
+
         if (weightedRanks.isEmpty()) {
             return Rank.NONE;
         }
