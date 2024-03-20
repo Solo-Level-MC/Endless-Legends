@@ -58,16 +58,11 @@ public class RebornMechanic implements RespawnInterface {
     public void deathCooldown(Player player) {
         UUID playerUUID = player.getUniqueId();
         Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
-        String className = playerDataManager.getClassName(player.getUniqueId());
-        String defaultClass = Legend.defaultClass;
-        Bukkit.getLogger().info("class " + className);
-        Bukkit.getLogger().info("default " + defaultClass);
 
         long lastDeathTime = lastDeathTimes.getOrDefault(playerUUID, 0L);
         long currentTime = System.currentTimeMillis() / 1000;
 
         boolean playerAwakened = playerAwakened();
-        Bukkit.getLogger().info("playerAwakened " + playerAwakened);
 
         if (currentRank == Rank.NONE || currentTime - lastDeathTime >= getRebornCooldown()) {
             if (currentRank == Rank.S || currentRank == Rank.NONE) {
@@ -119,7 +114,6 @@ public class RebornMechanic implements RespawnInterface {
     public boolean playerAwakened() {
         EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
         double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
-        Bukkit.getLogger().info("awakened  chance" + awakenChance);
         return new Random().nextDouble() <= awakenChance / 100;
     }
 }
