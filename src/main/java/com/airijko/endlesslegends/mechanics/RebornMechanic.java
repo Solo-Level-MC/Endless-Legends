@@ -77,7 +77,7 @@ public class RebornMechanic implements RespawnInterface {
     }
 
     public void rebornPlayer(Player player) {
-        player.sendMessage("<yellow> You have been reborn! Choose a class.");
+        player.sendMessage("<yellow> You have been reborn! Choose a class. </yellow>");
         playerDataManager.resetToDefaultClass(player.getUniqueId());
 
         String title = "<red><b> YOU DIED! </b></red>";
@@ -86,21 +86,19 @@ public class RebornMechanic implements RespawnInterface {
     }
 
     public void awakened(Player player) {
-        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-        double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
-        if (new Random().nextDouble() <= awakenChance / 100) {
-            UUID playerUUID = player.getUniqueId();
-            Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
-            Rank newRank = Rank.getRandomRankHigher(currentRank);
-            playerDataManager.setPlayerRank(playerUUID, newRank);
+        UUID playerUUID = player.getUniqueId();
+        Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
+        Rank newRank = Rank.getRandomRankHigher(currentRank);
+        playerDataManager.setPlayerRank(playerUUID, newRank);
 
-            String title = "<blue><b> AWAKENED! </b></blue>";
-            String subtitle = "<green> Promoted to " + newRank.name() + " </green>";
-            TitleDisplay.sendTitle(player, title, subtitle);
-        }
+        String title = "<blue><b> AWAKENED! </b></blue>";
+        String subtitle = "<green> Promoted to " + newRank.name() + " </green>";
+        TitleDisplay.sendTitle(player, title, subtitle);
     }
 
     public boolean awakenPlayer() {
-        return true;
+        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
+        double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
+        return new Random().nextDouble() <= awakenChance / 100;
     }
 }
