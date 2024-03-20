@@ -40,7 +40,7 @@ public final class EndlessLegends extends JavaPlugin {
         legendManager = new LegendManager(this);
         playerDataManager = new PlayerDataManager(this, legendManager);
         legendAttributeProvider = new LegendAttributeProvider(playerDataManager);
-        legendClassGUI = new LegendClassGUI(playerDataManager);
+        legendClassGUI = new LegendClassGUI();
         rebornMechanic = new RebornMechanic(playerDataManager);
 
         Rank.loadWeights(this);

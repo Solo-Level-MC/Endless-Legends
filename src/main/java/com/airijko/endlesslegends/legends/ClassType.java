@@ -44,7 +44,6 @@ public enum ClassType {
     private final String fileName;
     private String displayName;
     private List<String> description;
-    private Map<String, Double> attributes = new HashMap<>();
 
     ClassType(String fileName) {
         this.fileName = fileName;
@@ -66,10 +65,6 @@ public enum ClassType {
 
     public void setDescription(List<String> description) {
         this.description = description;
-    }
-
-    public Map<String, Double> getAttributes() {
-        return attributes;
     }
 
     public static void assignAttributesToDescription(ClassType classType, Map<String, Double> attributes) {

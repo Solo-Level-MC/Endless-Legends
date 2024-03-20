@@ -9,6 +9,7 @@ import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.legends.Rank;
 
+import com.airijko.endlesslegends.settings.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -92,7 +93,7 @@ public class RebornMechanic implements RespawnInterface {
     }
 
     public void playerDeath(Player player) {
-        player.sendMessage("<yellow> Skill Issue... Choose a class! </yellow>");
+        player.sendMessage(Messages.PLAYER_DEATH.format());
         playerDataManager.resetToDefaultClass(player.getUniqueId());
 
         String title = "<red><b> YOU DIED! </b></red>";
