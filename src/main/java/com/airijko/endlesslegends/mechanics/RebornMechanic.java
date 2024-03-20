@@ -46,16 +46,10 @@ public class RebornMechanic implements RespawnInterface {
 
     @Override
     public void handleRespawn(Player player) {
-        EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
-        plugin.getLogger().info("handleRespawn called for player: " + player.getName());
-
         boolean playerAwakened = playerAwakenedMap.getOrDefault(player.getUniqueId(), false);
 
         if (playerAwakened) {
-            plugin.getLogger().info("Player " + player.getName() + " has awakened");
-            awakened(player);
-        } else {
-            plugin.getLogger().info("Player " + player.getName() + " has not awakened");
+            reAwakened(player);
         }
 
         playerAwakenedMap.remove(player.getUniqueId());
@@ -72,9 +66,10 @@ public class RebornMechanic implements RespawnInterface {
         long lastDeathTime = lastDeathTimes.getOrDefault(playerUUID, 0L);
         long currentTime = System.currentTimeMillis() / 1000;
 
-        if (currentRank == Rank.NONE || currentTime - lastDeathTime >= getRebornCooldown()) {
-            boolean playerAwakened = playerAwakened();
+        boolean playerAwakened = playerAwakened();
+        Bukkit.getLogger().info("playerAwakened " + playerAwakened);
 
+        if (currentRank == Rank.NONE || currentTime - lastDeathTime >= getRebornCooldown()) {
             if (currentRank == Rank.S || currentRank == Rank.NONE) {
                 playerAwakened = false;
             }
@@ -110,7 +105,7 @@ public class RebornMechanic implements RespawnInterface {
         TitleDisplay.sendTitle(player, title, subtitle);
     }
 
-    public void awakened(Player player) {
+    public void reAwakened(Player player) {
         UUID playerUUID = player.getUniqueId();
         Rank currentRank = playerDataManager.getPlayerRank(playerUUID);
         Rank newRank = Rank.getRandomRankHigher(currentRank);
@@ -124,6 +119,7 @@ public class RebornMechanic implements RespawnInterface {
     public boolean playerAwakened() {
         EndlessLegends plugin = JavaPlugin.getPlugin(EndlessLegends.class);
         double awakenChance = plugin.getPluginConfig().getDouble(Config.AWAKEN_CHANCE.getPath());
+        Bukkit.getLogger().info("awakened  chance" + awakenChance);
         return new Random().nextDouble() <= awakenChance / 100;
     }
 }

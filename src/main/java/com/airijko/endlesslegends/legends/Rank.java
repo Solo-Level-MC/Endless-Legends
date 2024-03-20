@@ -89,6 +89,7 @@ public enum Rank {
         if (weightedRanks.isEmpty()) {
             return Rank.NONE;
         }
+
         Random random = new Random();
         int randomIndex = random.nextInt(weightedRanks.size());
         return weightedRanks.get(randomIndex);
