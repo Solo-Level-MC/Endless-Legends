@@ -4,13 +4,11 @@ import com.airijko.endlesscore.interfaces.RespawnInterface;
 import com.airijko.endlesscore.utils.TitleDisplay;
 
 import com.airijko.endlesslegends.EndlessLegends;
-import com.airijko.endlesslegends.legends.Legend;
 import com.airijko.endlesslegends.managers.PlayerDataManager;
 import com.airijko.endlesslegends.settings.Config;
 import com.airijko.endlesslegends.legends.Rank;
 
 import com.airijko.endlesslegends.settings.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
